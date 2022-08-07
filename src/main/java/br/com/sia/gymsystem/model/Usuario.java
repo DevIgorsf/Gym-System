@@ -11,10 +11,15 @@ public class Usuario implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_usuario")
 	private Long id;
 	private String username;
 	private String password;
+
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	private Pessoa pessoa;
 	@ManyToMany
 	@JoinTable(name = "TB_USERS_ROLES",
 			joinColumns = @JoinColumn(name = "user_id"),

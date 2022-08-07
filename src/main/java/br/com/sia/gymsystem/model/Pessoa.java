@@ -21,11 +21,13 @@ public abstract class Pessoa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
-    private String Cpf;
+    private String cpf;
     private LocalDate dataNascimento;
     @OneToOne
     @JoinColumn(name = "endereco_ID")
     private Endereco endereco;
-    private String email;
-    private String password;
+
+    @OneToOne
+    @JoinColumn(name = "id", referencedColumnName = "id_usuario", nullable = false)
+    private Usuario usuario;
 }
