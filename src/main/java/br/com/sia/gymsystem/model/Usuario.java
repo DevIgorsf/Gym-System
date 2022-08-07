@@ -2,9 +2,7 @@ package br.com.sia.gymsystem.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,12 +13,13 @@ public class Usuario implements UserDetails {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String nome;
-	private String email;
-	private String senha;
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private List<Perfil> perfis = new ArrayList<>();
+	private String username;
+	private String password;
+	@ManyToMany
+	@JoinTable(name = "TB_USERS_ROLES",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<RoleModel> roles;
 
 	@Override
 	public int hashCode() {
@@ -55,43 +54,27 @@ public class Usuario implements UserDetails {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.perfis;
-	}
-
-	@Override
-	public String getPassword() {
-		return this.senha;
+		return this.roles;
 	}
 
 	@Override
 	public String getUsername() {
-		return this.email;
+		return this.username;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.password;
 	}
 
 	@Override
