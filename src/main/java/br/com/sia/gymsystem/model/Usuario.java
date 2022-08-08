@@ -18,7 +18,7 @@ public class Usuario implements UserDetails {
 	private String username;
 	private String password;
 
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
 	private Pessoa pessoa;
 	@ManyToMany
 	@JoinTable(name = "TB_USERS_ROLES",
