@@ -3,12 +3,14 @@ package br.com.sia.gymsystem.model;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 public class Usuario implements UserDetails {
-
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -19,12 +21,17 @@ public class Usuario implements UserDetails {
 	private String password;
 
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+	@Transient
 	private Pessoa pessoa;
-	@ManyToMany
-	@JoinTable(name = "TB_USERS_ROLES",
-			joinColumns = @JoinColumn(name = "user_id"),
-			inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private List<RoleModel> roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+//	@JoinTable(name = "TB_USERS_ROLES",
+//			joinColumns = @JoinColumn(name = "user_id"),
+//			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<RoleModel> roles = new ArrayList<>();
+
+	public void setRoles(RoleModel roleModel) {
+		this.roles.add(roleModel);
+	}
 
 	@Override
 	public int hashCode() {
@@ -43,9 +50,8 @@ public class Usuario implements UserDetails {
 		if (getClass() != obj.getClass())
 			return false;
 		Usuario other = (Usuario) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
+		if (id == null && other.id != null) {
+			return false;
 		} else if (!id.equals(other.id))
 			return false;
 		return true;

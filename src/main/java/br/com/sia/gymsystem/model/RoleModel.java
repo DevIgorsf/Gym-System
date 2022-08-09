@@ -4,14 +4,16 @@ import br.com.sia.gymsystem.enums.RoleName;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
 public class RoleModel implements GrantedAuthority, Serializable {
-	
+	@Serial
 	private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
@@ -26,11 +28,11 @@ public class RoleModel implements GrantedAuthority, Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
+	public String getRoleNome() {
 		return roleName.toString();
 	}
 
-	public void setNome(RoleName nome) {
+	public void setRoleNome(RoleName nome) {
 		this.roleName = nome;
 	}
 
