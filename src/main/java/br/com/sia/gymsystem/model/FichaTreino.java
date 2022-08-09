@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -20,7 +17,10 @@ public class FichaTreino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_ficha_treino", nullable = false)
     private Long id;
     private String nome;
+
+    @OneToMany(mappedBy = "fichaTreino")
     private List<Exercicio> exercicios;
 }
