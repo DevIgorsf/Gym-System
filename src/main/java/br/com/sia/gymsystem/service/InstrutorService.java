@@ -1,13 +1,16 @@
 package br.com.sia.gymsystem.service;
 
+import br.com.sia.gymsystem.dto.HorarioDto;
 import br.com.sia.gymsystem.dto.InstrutorDto;
 import br.com.sia.gymsystem.enums.RoleName;
 import br.com.sia.gymsystem.form.ClienteForm;
+import br.com.sia.gymsystem.form.HorarioForm;
 import br.com.sia.gymsystem.form.InstrutorForm;
 import br.com.sia.gymsystem.model.*;
 import br.com.sia.gymsystem.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -26,6 +29,9 @@ public class InstrutorService {
 
     @Autowired
     RoleModelRepository roleModelRepository;
+
+    @Autowired
+    HorariosRepository horariosRepository;
 
     @Autowired
     ModelMapper modelMapper;
@@ -87,5 +93,25 @@ public class InstrutorService {
         Optional<Instrutor> instrutorSaved = instrutorRepository.findById(id);
 
         return modelMapper.map(instrutorSaved.get(), InstrutorDto.class);
+    }
+
+    public HorarioDto RegistrarAula(HorarioForm form) {
+        Optional<Instrutor> instrutor = instrutorRepository.findByNome(form.getNome());
+        Horario horario = new Horario(form.getDiaDaSemana(), form.getHorarioEntrada(), form.getHorarioSaida());
+        Horario horarioSaved = horariosRepository.save(horario);
+        instrutor.get().setHorarios(horarioSaved);
+        Instrutor instrutorSaved = instrutorRepository.save(instrutor.get());
+        return modelMapper.map(form, HorarioDto.class);
+    }
+
+    public ResponseEntity ExcluirAula(Long id) {
+        Optional<Horario> horario = horariosRepository.findById(id);
+
+        if(horario.isEmpty()) {
+            throw new EntityNotFoundException("Cliente não encontrado");
+        }
+        horariosRepository.delete(horario.get());
+
+        return ResponseEntity.ok().build();
     }
 }

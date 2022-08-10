@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
 @Setter
@@ -19,7 +20,7 @@ public class ClienteForm {
     private String nome;
     @CPF
     private String cpf;
-    @NotBlank @Past @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
+    @NotBlank @Past @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$")
     private LocalDate dataNascimento;
     @NotBlank
     private String estado;

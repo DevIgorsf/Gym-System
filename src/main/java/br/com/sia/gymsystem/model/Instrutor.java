@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -18,8 +16,12 @@ import java.util.List;
 @Entity
 public class Instrutor extends Pessoa{
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(joinColumns = @JoinColumn(name = "instrutor_id"),
             inverseJoinColumns = @JoinColumn(name = "horarios_id"))
-    private List<Horarios> horarios;
+    private List<Horario> horarios = new ArrayList<>();
+
+    public void setHorarios(Horario horario) {
+        this.horarios.add(horario);
+    }
 }
