@@ -1,6 +1,7 @@
 package br.com.sia.gymsystem.controller;
 
 import br.com.sia.gymsystem.dto.HorarioDto;
+import br.com.sia.gymsystem.dto.HorarioFactory;
 import br.com.sia.gymsystem.form.HorarioForm;
 import br.com.sia.gymsystem.form.InstrutorForm;
 import br.com.sia.gymsystem.service.HorarioService;
@@ -37,7 +38,7 @@ public class HorarioController {
 
     @PreAuthorize("hasAnyRole('INSTRUTOR', 'CLIENTE')")
     @GetMapping("/BuscarAulas")
-    public ResponseEntity<List<HorarioDto>> BuscarAulas() {
+    public ResponseEntity<List<HorarioFactory>> BuscarAulas() {
         return ResponseEntity.status(HttpStatus.OK).body(horarioService.BuscarAulas());
     }
 

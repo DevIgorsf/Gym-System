@@ -13,6 +13,7 @@ import br.com.sia.gymsystem.repository.RoleModelRepository;
 import br.com.sia.gymsystem.repository.UsuarioRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -67,7 +68,9 @@ public class ClienteService {
             usuario.setRoles(roleModel.get());
         }
         usuario.setUsername(form.getUsername());
-        usuario.setPassword(form.getPassword());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setPassword(encoder.encode(form.getPassword()));
+
         Usuario usuarioSaved = usuarioRepository.save(usuario);
         Cliente cliente = new Cliente();
         cliente.setEndereco(enderecoSaved);
