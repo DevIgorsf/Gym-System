@@ -10,16 +10,14 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Calendar;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Horarios {
+public class Horario {
 
     @Id
     private Long id;
@@ -30,4 +28,10 @@ public class Horarios {
     private LocalTime horarioEntrada;
 
     private LocalTime horarioSaida;
+
+    public Horario(DiaDaSemana diaDaSemana, LocalTime horarioEntrada, LocalTime horarioSaida) {
+        this.diaDaSemana = diaDaSemana;
+        this.horarioEntrada = horarioEntrada;
+        this.horarioSaida = horarioSaida;
+    }
 }
