@@ -75,4 +75,35 @@ public class ClienteService {
 
         return modelMapper.map(ClienteSaved, ClienteDto.class);
     }
+
+    public ClienteDto atualizarCliente(Long id, ClienteForm form) {
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if(cliente.isEmpty()) {
+            throw new EntityNotFoundException("Cliente não encontrado");
+        }
+        Endereco endereco = cliente.get().getEndereco();
+        if(!form.getEstado().equals(endereco.getEstado())) endereco.setEstado(form.getEstado());
+        if(!form.getCidade().equals(endereco.getCidade())) endereco.setCidade(form.getCidade());
+        if(!form.getBairro().equals(endereco.getBairro())) endereco.setBairro(form.getBairro());
+        if(!form.getRua().equals(endereco.getRua())) endereco.setRua(form.getRua());
+        if(form.getNumero() != endereco.getNumero()) endereco.setNumero(form.getNumero());
+        if(form.getComplemento() != endereco.getComplemento()) endereco.setComplemento(form.getComplemento());
+        if(!cliente.get().getEndereco().equals(endereco)) enderecoRepository.save(endereco);
+
+        Usuario usuario = cliente.get().getUsuario();
+        if(!form.getUsername().equals(usuario.getUsername())) usuario.setUsername(form.getUsername());
+        if(!form.getPassword().equals(usuario.getPassword())) usuario.setPassword(form.getPassword());
+        usuarioRepository.save(usuario);
+
+        if(form.getAltura() != cliente.get().getAltura()) cliente.get().setAltura(form.getAltura());
+        if(form.getMedidaTorax() != cliente.get().getMedidaTorax()) cliente.get().setMedidaTorax(form.getMedidaTorax());
+        if(form.getMedidaCintura() != cliente.get().getMedidaCintura()) cliente.get().setMedidaCintura(form.getMedidaCintura());
+        if(form.getMedidaBraco() != cliente.get().getMedidaBraco()) cliente.get().setMedidaBraco(form.getMedidaBraco());
+        if(form.getMedidaPerna() != cliente.get().getMedidaPerna()) cliente.get().setMedidaPerna(form.getMedidaPerna());
+
+        Cliente ClienteSaved = clienteRepository.save(cliente.get());
+
+        return modelMapper.map(ClienteSaved, ClienteDto.class);
+    }
 }

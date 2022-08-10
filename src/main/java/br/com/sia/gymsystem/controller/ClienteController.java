@@ -28,6 +28,11 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.cadastrarCliente(form));
     }
 
+    @PutMapping("/dados/{id}")
+    public ResponseEntity<ClienteDto> atualizarCliente(@PathVariable Long id, @RequestBody @Valid ClienteForm form) {
+        return ResponseEntity.status(HttpStatus.OK).body(clienteService.atualizarCliente(id, form));
+    }
+
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 
 
