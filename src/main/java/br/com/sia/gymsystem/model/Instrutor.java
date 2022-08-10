@@ -18,7 +18,7 @@ public class Instrutor extends Pessoa{
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(joinColumns = @JoinColumn(name = "instrutor_id"),
-            inverseJoinColumns = @JoinColumn(name = "horarios_id"))
+            inverseJoinColumns = @JoinColumn(name = "horario_id"))
     private List<Horario> horarios = new ArrayList<>();
 
     public void setHorarios(Horario horario) {

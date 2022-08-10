@@ -23,8 +23,7 @@ public class ClienteController {
     public ResponseEntity<ClienteDto> getDados(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.getDados(id));
     }
-
-    @PreAuthorize("hasAnyRole('INSTRUTOR', 'CLIENTE')")
+    
     @PostMapping("/cadastrar")
     public ResponseEntity<ClienteDto> cadastarCliente(@RequestBody @Valid ClienteForm form) {
         return ResponseEntity.status(HttpStatus.OK).body(clienteService.cadastrarCliente(form));

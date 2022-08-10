@@ -26,7 +26,7 @@ public class InstrutorController {
         return ResponseEntity.status(HttpStatus.OK).body(instrutorService.getDados(id));
     }
 
-    @PreAuthorize("hasRole('INSTRUTOR')")
+//    @PreAuthorize("hasRole('INSTRUTOR')")
     @PostMapping("/cadastrar")
     public ResponseEntity<InstrutorDto> cadastarInstrutor(@RequestBody @Valid InstrutorForm form) {
         return ResponseEntity.status(HttpStatus.OK).body(instrutorService.cadastrarInstrutor(form));

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,9 +23,20 @@ public class HorarioService {
     @Autowired
     ModelMapper modelMapper;
     public List<HorarioDto> BuscarAulas() {
-        List<Instrutor> instrutores = instrutorRepository.findAll();
+//        List<Instrutor> instrutores = instrutorRepository.findAll();
+//        if(instrutores.isEmpty()) {
+//            throw new EntityNotFoundException("Cliente não encontrado");
+//        }
+//
+//        List<HorarioDto> horarioDto = instrutores.stream().map( horarios -> modelMapper.map(horarios.getHorarios(), HorarioDto.class)).collect(Collectors.toList());
+//
+//        return horarioDto;
 
-        List<HorarioDto> horarioDto = instrutores.stream().map( horarios -> modelMapper.map(horarios.getHorarios(), HorarioDto.class)).collect(Collectors.toList());
+        List<HorarioDto> horarioDto = horariosRepository.findNomeHorario();
+
+        if(horarioDto.isEmpty()) {
+            throw new EntityNotFoundException("Horário não encontrado");
+        }
 
         return horarioDto;
     }

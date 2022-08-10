@@ -14,10 +14,11 @@ public class RoleModel implements GrantedAuthority, Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_role_name")
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = false)
 	private RoleName roleName;
 
 	public Long getId() {

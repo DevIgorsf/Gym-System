@@ -17,6 +17,7 @@ public class Usuario implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_usuario")
 	private Long id;
+	@Column(nullable = false, unique = true)
 	private String username;
 	private String password;
 
@@ -24,9 +25,9 @@ public class Usuario implements UserDetails {
 	@Transient
 	private Pessoa pessoa;
 	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "TB_USERS_ROLES",
-//			joinColumns = @JoinColumn(name = "user_id"),
-//			inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "TB_USERS_ROLES",
+			joinColumns = @JoinColumn(name = "id_usuario"),
+			inverseJoinColumns = @JoinColumn(name = "id_role_name"))
 	private List<RoleModel> roles = new ArrayList<>();
 
 	public void setRoles(RoleModel roleModel) {

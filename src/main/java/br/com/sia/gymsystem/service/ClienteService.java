@@ -56,16 +56,25 @@ public class ClienteService {
         if(form.getComplemento() != 0) endereco.setComplemento(form.getComplemento());
         Endereco enderecoSaved = enderecoRepository.save(endereco);
         Usuario usuario = new Usuario();
-        RoleModel roleModel = new RoleModel();
-        roleModel.setRoleNome(RoleName.CLIENTE);
-        RoleModel roleModelSaved = roleModelRepository.save(roleModel);
+
+        Optional<RoleModel> roleModel = roleModelRepository.findByRoleName(RoleName.CLIENTE);
+        if(roleModel.isEmpty()) {
+            RoleModel roleModelInicial = new RoleModel();
+            roleModelInicial.setRoleNome(RoleName.INSTRUTOR);
+            RoleModel roleModelSaved = roleModelRepository.save(roleModelInicial);
+            usuario.setRoles(roleModelSaved);
+        } else {
+            usuario.setRoles(roleModel.get());
+        }
         usuario.setUsername(form.getUsername());
         usuario.setPassword(form.getPassword());
-        usuario.setRoles(roleModelSaved);
         Usuario usuarioSaved = usuarioRepository.save(usuario);
         Cliente cliente = new Cliente();
         cliente.setEndereco(enderecoSaved);
         cliente.setUsuario(usuarioSaved);
+        cliente.setCpf(form.getCpf());
+        cliente.setDataNascimento(form.getDataNascimento());
+        cliente.setNome(form.getNome());
         cliente.setAltura(form.getAltura());
         cliente.setMedidaTorax(form.getMedidaTorax());
         cliente.setMedidaCintura(form.getMedidaCintura());

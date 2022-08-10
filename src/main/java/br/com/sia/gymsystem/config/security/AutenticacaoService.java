@@ -9,17 +9,29 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AutenticacaoService implements UserDetailsService {
 	
 	@Autowired
 	private UsuarioRepository usurioRepository;
 
+//	@Override
+//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//		Usuario usurio = usurioRepository.findByUsername(username)
+//				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+//		return new User(usurio.getUsername(), usurio.getPassword(), true, true, true,true, usurio.getAuthorities());
+//	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Usuario usurio = usurioRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-		return new User(usurio.getUsername(), usurio.getPassword(), true, true, true,true, usurio.getAuthorities());
+		Optional<Usuario> usuario = usurioRepository.findByUsername(username);
+		if (usuario.isPresent()) {
+			return usuario.get();
+		}
+
+		throw new UsernameNotFoundException("Dados inválidos!");
 	}
 
 }

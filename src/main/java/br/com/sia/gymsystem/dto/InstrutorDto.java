@@ -19,6 +19,4 @@ public class InstrutorDto {
     private String cpf;
     private LocalDate dataNascimento;
     private Endereco endereco;
-    private Double altura;
-    private Double peso;
 }

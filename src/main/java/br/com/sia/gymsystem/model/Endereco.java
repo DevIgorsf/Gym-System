@@ -27,7 +27,6 @@ public class Endereco {
     private String rua;
     @NotNull
     private int numero;
-    @Null
     private int complemento;
 
 //    @OneToOne(mappedBy = "endereco")

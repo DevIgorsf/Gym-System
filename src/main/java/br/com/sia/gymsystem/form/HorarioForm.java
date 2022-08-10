@@ -16,11 +16,9 @@ public class HorarioForm {
 
     private DiaDaSemana diaDaSemana;
 
-    @NotBlank
-    @Pattern(regexp = "^\\d{2}:\\d{2}$")
+//    @Pattern(regexp = "^\\d{2}:\\d{2}$")
     private LocalTime horarioEntrada;
 
-    @NotBlank
-    @Pattern(regexp = "^\\d{2}:\\d{2}$")
+//    @Pattern(regexp = "^\\d{2}:\\d{2}$")
     private LocalTime horarioSaida;
 }

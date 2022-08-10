@@ -5,9 +5,8 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
+
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Getter
@@ -18,7 +17,8 @@ public class InstrutorForm {
     private String nome;
     @CPF
     private String cpf;
-    @NotBlank @Past
+//    @NotBlank
+    @Past
     @DateTimeFormat(iso= DateTimeFormat.ISO.DATE)
     private LocalDate dataNascimento;
     @NotBlank
@@ -29,10 +29,10 @@ public class InstrutorForm {
     private String bairro;
     @NotBlank
     private String rua;
-    @NotBlank
+    @Positive
     private int numero;
     private int complemento;
-    @NotBlank @UniqueElements
+    @NotBlank
     private String username;
     @NotBlank
     private String password;

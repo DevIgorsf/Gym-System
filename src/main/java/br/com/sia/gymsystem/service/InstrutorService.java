@@ -11,6 +11,7 @@ import br.com.sia.gymsystem.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -55,16 +56,28 @@ public class InstrutorService {
         if(form.getComplemento() != 0) endereco.setComplemento(form.getComplemento());
         Endereco enderecoSaved = enderecoRepository.save(endereco);
         Usuario usuario = new Usuario();
-        RoleModel roleModel = new RoleModel();
-        roleModel.setRoleNome(RoleName.INSTRUTOR);
-        RoleModel roleModelSaved = roleModelRepository.save(roleModel);
+
+        Optional<RoleModel> roleModel = roleModelRepository.findByRoleName(RoleName.INSTRUTOR);
+        if(roleModel.isEmpty()) {
+            RoleModel roleModelInicial = new RoleModel();
+            roleModelInicial.setRoleNome(RoleName.INSTRUTOR);
+            RoleModel roleModelSaved = roleModelRepository.save(roleModelInicial);
+            usuario.setRoles(roleModelSaved);
+        } else {
+            usuario.setRoles(roleModel.get());
+        }
+
         usuario.setUsername(form.getUsername());
-        usuario.setPassword(form.getPassword());
-        usuario.setRoles(roleModelSaved);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        usuario.setPassword(encoder.encode(form.getPassword()));
+
         Usuario usuarioSaved = usuarioRepository.save(usuario);
         Instrutor instrutor = new Instrutor();
         instrutor.setEndereco(enderecoSaved);
         instrutor.setUsuario(usuarioSaved);
+        instrutor.setCpf(form.getCpf());
+        instrutor.setDataNascimento(form.getDataNascimento());
+        instrutor.setNome(form.getNome());
         Instrutor instrutorSaved = instrutorRepository.save(instrutor);
 
         return modelMapper.map(instrutorSaved, InstrutorDto.class);
