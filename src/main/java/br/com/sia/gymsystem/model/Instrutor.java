@@ -17,8 +17,11 @@ import java.util.List;
 public class Instrutor extends Pessoa{
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(joinColumns = @JoinColumn(name = "instrutor_id"),
-            inverseJoinColumns = @JoinColumn(name = "horario_id"))
+    @JoinTable(joinColumns = @JoinColumn(name = "instrutor_id",
+            foreignKey = @ForeignKey(name = "fk_instrutor_id", foreignKeyDefinition = "foreign key /* FK */ (instrutor_id) " +
+                    " REFERENCES Instrutor (id) ON DELETE NO ACTION")),
+            inverseJoinColumns = @JoinColumn(name = "horario_id", foreignKey = @ForeignKey(name = "fk_horario_id",
+                    foreignKeyDefinition = "foreign key /* FK */ (horario_id) REFERENCES Horario (id) ON DELETE CASCADE")))
     private List<Horario> horarios = new ArrayList<>();
 
     public void setHorarios(Horario horario) {

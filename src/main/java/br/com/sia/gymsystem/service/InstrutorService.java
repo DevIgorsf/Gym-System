@@ -105,6 +105,9 @@ public class InstrutorService {
 
         Optional<Instrutor> instrutorSaved = instrutorRepository.findById(id);
 
+        if(instrutorSaved.get().getHorarios().isEmpty()) {
+            throw new EntityNotFoundException("Erro - Tente novamente");
+        }
         return modelMapper.map(instrutorSaved.get(), InstrutorDto.class);
     }
 
@@ -114,7 +117,8 @@ public class InstrutorService {
         Horario horarioSaved = horariosRepository.save(horario);
         instrutor.get().setHorarios(horarioSaved);
         Instrutor instrutorSaved = instrutorRepository.save(instrutor.get());
-        return modelMapper.map(form, HorarioDto.class);
+        HorarioDto horarioDto = modelMapper.map(form, HorarioDto.class);
+        return horarioDto;
     }
 
     public ResponseEntity ExcluirAula(Long id) {
