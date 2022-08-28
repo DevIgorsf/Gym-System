@@ -21,10 +21,11 @@ public class Horario {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "dia_da_semana")
     private DiaDaSemana diaDaSemana;
-
+    @Column(name = "horario_entrada")
     private LocalTime horarioEntrada;
-
+    @Column(name = "horario_saida")
     private LocalTime horarioSaida;
 
     public Horario(DiaDaSemana diaDaSemana, LocalTime horarioEntrada, LocalTime horarioSaida) {
